@@ -1,0 +1,4 @@
+a[href]:not(.btn){
+    text-decoration: none;
+    color: #158cba;
+}

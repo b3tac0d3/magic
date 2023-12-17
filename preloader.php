@@ -1,0 +1,1 @@
+<?php define("ResetFoundation", 0) ?>
