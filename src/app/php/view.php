@@ -12,7 +12,7 @@ private $RawLayoutData;
 private $FinalOutputData;
 private $SessionVerified = 0;
 
-function __construct($ViewFileName){
+function __construct($ViewFileName, $ControllerData = null){
     $this -> ViewsPath = sm::Dir("Views");
     $this -> GetViewData($ViewFileName);
     // If not using presto syntax, we can output the raw view file and stop the scripts

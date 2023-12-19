@@ -77,7 +77,7 @@ Base URL Paths
 
 "App" => $App = $Src . "app/",
 
-"User" => $user = $Src . "user/",
+"User" => $User = $Src . "user/",
 
 "Css" => $App . "css/",
 
@@ -89,23 +89,27 @@ Base URL Paths
 
 "Forms" => $App . "forms/",
 
-"UserCss" => $user . "css/",
+"UserCss" => $User . "css/",
 
-"UserJs" => $user . "js/",
+"UserJs" => $User . "js/",
 
-"UserPhp" => $user . "php/",
+"UserPhp" => $User . "php/",
 
-"UserImg" => $user . "img/",
+"UserImg" => $User . "img/",
 
-"UserForms" => $user . "forms/",
+"UserForms" => $User . "forms/",
 
-"Plugins" => $App . "plugins/",
+$PluginsUrl = "Plugins" => $App . "plugins/",
 
 "Depends" => $App . "dependencies/",
 
 "Logs" => $App . "logs/"
 ), // "Url array
 
+
+/************
+Directories
+************/
 "Dirs" => array(
 
 "Base" => $BaseDir . "/",
@@ -120,7 +124,7 @@ Base URL Paths
 
 "App" => $App = $Src . "app/",
 
-"User" => $user = $Src . "user/",
+"User" => $User = $Src . "user/",
 
 "Css" => $App . "css/",
 
@@ -132,17 +136,17 @@ Base URL Paths
 
 "Forms" => $App . "forms/",
 
-"UserCss" => $user . "css/",
+"UserCss" => $User . "css/",
 
-"UserJs" => $user . "js/",
+"UserJs" => $User . "js/",
 
-"UserPhp" => $user . "php/",
+"UserPhp" => $User . "php/",
 
-"UserImg" => $user . "img/",
+"UserImg" => $User . "img/",
 
-"UserForms" => $user . "forms/",
+"UserForms" => $User . "forms/",
 
-"Plugins" => $App . "plugins/",
+$PluginsDir = "Plugins" => $App . "plugins/",
 
 "Depends" => $App . "dependencies/",
 
@@ -153,21 +157,39 @@ Base URL Paths
 Plugins Paths - Stand-alone plugins that containt depndencies which the framework is built with.
 ************/
 "Plugins" => array(
-// SQL
-"Aces" => $plugins . "aces/",
+    "Urls" => array(
+        // SQL
+        "Aces" => $PluginsUrl . "aces/",
 
-// Errors
-"Decks" => $plugins . "decks/",
+        // Errors
+        "Decks" => $PluginsUrl . "decks/",
 
-// Logging
-"Flops" => $plugins . "flops/",
+        // Logging
+        "Flops" => $PluginsUrl . "flops/",
 
-// Form Building
-"Folds" => $plugins . "folds/",
+        // Form Building
+        "Folds" => $PluginsUrl . "folds/",
 
-// Ajax Quick Library
-"Spades" => $plugins . "spades/"
-) // $plugins array
+        // Ajax Quick Library
+        "Spades" => $PluginsUrl . "spades/"
+    ), // Urls array
+    "Dirs" => array(
+        // SQL
+        "Aces" => $PluginsDir . "aces/",
+
+        // Errors
+        "Decks" => $PluginsDir . "decks/",
+
+        // Logging
+        "Flops" => $PluginsDir . "flops/",
+
+        // Form Building
+        "Folds" => $PluginsDir . "folds/",
+
+        // Ajax Quick Library
+        "Spades" => $PluginsDir . "spades/"
+    ) // Dirs array
+) // Plugins array
 ), // $App array
 
 /************

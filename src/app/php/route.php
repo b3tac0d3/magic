@@ -7,30 +7,23 @@ use sm;
 
 class RouteClass{
     
-    private $ViewFileUrl;
-    private $ViewsPath;
-    private $ControllersPath;
-    private $ControllersFileUrl;
-    private $SrcPath;
-
     function __construct(){
         if(empty($_SESSION)) session_start();
-        $this -> SrcPath = sm::Dir("Src");
-        $this -> ViewsPath = $this -> ViewFileUrl = sm::Dir("Views");
-        $this -> ControllersPath = $this -> ControllersFileUrl = sm::Dir("Controllers");
     } // __construct()
 
-    function View($FileName, $RequestType = "get"){
+    function View($FileName, $PassData = null, $RequestType = "get"){
         // Used for calling a view file directly with know controller, session or authorization needed.
+        // PassData is used for passing data from the model to the view. It should always be done in json format
         // Make sure we have a valid file
-        $this -> CheckViewFileExists($FileName);
-        new ViewClass($this -> ViewFileUrl);
+        $FileName = $this -> CheckFileExists(sm::Dir("Views") . $FileName);
+        new ViewClass($FileName);
     } // view()
 
-    function Ctrl($FileName, $Function = null, $RequestType = "get"){
+    function Ctrl($FileName, $ModelName = null, $ClassName = null, $Function = null, $RequestType = "get"){
         // Used for calling a controller
-        // $this -> CheckFileExists($FileName);
-        // new ControllerClass($this -> ControllerFileUrl);
+        $ClassName = $ClassName ?: ucwords($FileName) . "Controller";
+        $FileName = $this -> CheckFileExists(sm::Dir("Controllers") . $FileName);
+        new ControllerClass($FileName, $ModelName, $Function, $ClassName);
     } // ctrl()
 
     function Sess(){
@@ -40,25 +33,6 @@ class RouteClass{
     function Auth(){
         // Used for broad page authorization through RBAC
     } // auth()
-
-    function CheckViewFileExists($FileName){
-        // Structure the URL
-        $this -> ViewFileUrl .= $FileName;
-
-        // Check if we have a directory first and default to index file if nothing is specified
-        if(is_dir($this -> ViewFileUrl)){
-            $this -> ViewFileUrl .= "/index.php";
-            return true;
-        // Check if we have a files
-        }elseif(is_file($this -> ViewFileUrl .= ".php")){
-            return true;
-        // Throw an error because it's not an existing dir or file
-        }else{
-            // Throw error here and return nothing
-            $this -> SetError(404);
-            return false;
-        }
-    } // check_file_existence()
 
     function GetUri(){
         $uri = $_SERVER['REQUEST_URI'];
@@ -75,9 +49,22 @@ class RouteClass{
         return $uri;
     } // get_uri()
 
-    private function SetError($code, $SetErrorStatus = true){
+    private function CheckFileExists($FileName){
+        // Start by parsing file name to replace dots with slashes. This is for simple routing
+        $FileName = str_replace(".", "/", $FileName);
+        if(is_dir($FileName)){ // Check if we have a directory first and default to index file if nothing is specified
+            return $FileName . "/index.php";
+        }elseif(is_file($FileName .= ".php")){ // Check if we have a files
+            return $FileName;
+        }else{ // Throw an error because it's not an existing dir or file
+            $this -> SetError(404);
+            return false;
+        }
+    } // check_file_existence()
+
+    private function SetError($code, $ErrorStatus = true){
         if($code == 404){
-            new ViewClass($this -> ViewsPath . "errors/404.php");
+            new ViewClass(sm::Dir("Views") . "errors/404.php");
             exit();
         }
     }
