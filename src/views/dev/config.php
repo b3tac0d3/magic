@@ -27,5 +27,5 @@
 @endsection
 
 @section(content)
-    
+    {{Content}}
 @endsection

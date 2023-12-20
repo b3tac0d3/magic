@@ -75,6 +75,8 @@ Base URL Paths
 
 "Controllers" => $Src . "controllers/",
 
+"Models" => $Src . "models/",
+
 "App" => $App = $Src . "app/",
 
 "User" => $User = $Src . "user/",
@@ -121,6 +123,8 @@ Directories
 "Views" => $Src . "views/",
 
 "Controllers" => $Src . "controllers/",
+
+"Models" => $Src . "models/",
 
 "App" => $App = $Src . "app/",
 

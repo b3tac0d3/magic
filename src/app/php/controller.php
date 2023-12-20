@@ -8,47 +8,53 @@ class ControllerClass{
 
 private $File;
 private $Controller;
-private $Model;
-private $FunctionName;
+public $Model;
+private $Function;
+private $ViewFile;
 private $ViewData = array();
 
-function __Construct($FileName = null, $ModelName = null, $FunctionName = null, $ClassName = null){
-    $this -> SetController($this -> File = $FileName);
-    if(!empty($ModelName)) $this -> SetModel($ModelName);
-    if(!empty($ClassName)) $this -> SetClass($ClassName);
-    if(!empty($FunctionName)) $this -> RunFunction($FunctionName);
+function __Construct($File = null, $ViewFile = null, $Class = null, $Function = null){
+    var_dump($ViewFile);
+    $this -> SetController($this -> File = $File);
+    if(!empty($Class)) $this -> SetClass($Class);
+    if(!empty($Function)) $this -> RunFunction($Function);
+    if(!empty($ViewFile)) 
+        $this -> ViewFile = $ViewFile;
+    else
+        $this -> ViewFile = $File;
 } // Construct()
 
-function SetController($FileName){
-    require_once($FileName);
+function SetController($File){
+    require_once($File);
 } // SetController()
 
-function SetClass($ClassName, $FunctionName = null){
-    $this -> Controller = new $ClassName;
+function SetClass($Class, $Function = null){
+    $this -> Controller = new $Class;
 } //SetClass()
 
-function SetModel($ModelName){
-    $this -> Model = $ModelName;
-} // SetModel()
-
-function RunFunction($FunctionName){
-    $this -> FunctionName = $FunctionName;
-    ($this -> Controller) -> $FunctionName();
+function RunFunction($Function){
+    $this -> Function = $Function;
+    ($this -> Controller) -> $Function();
 } // RunFunction()
 
 function AddViewData($Key, $Data){
-    $this -> ViewData[$Key] = $Data;
-    var_dump($this -> ViewData['content']);exit;
+    if(isset($this -> ViewData[$Key])){
+        $this -> ViewData[$Key] .= $Data;
+    }else{
+        $this -> ViewData[$Key] = $Data;
+    }
 } // AddViewData()
 
-function AppendViewData($Key, $Data){
-    $this -> ViewData[$Key] .= $Data;
-}
+function GetModel($Model){
+    $Model = sm::Dir("Models") . str_replace(".", "/", $Model) . ".php";
+    require_once($Model);
+} // GetModel()
 
-function GetView($FileName){
+function GetView($File){
+    if(empty($File)) $File = $this -> ViewFile;
     $Route = new RouteClass();
-    $Route -> View($FileName);
+    $Route -> View($File, $$this -> ViewData);
 }
 
 
-} // ControllerClass
+} // class ControllerClass

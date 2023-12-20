@@ -11,8 +11,11 @@ private $RawViewData;
 private $RawLayoutData;
 private $FinalOutputData;
 private $SessionVerified = 0;
+private $ControllerData;
 
 function __construct($ViewFileName, $ControllerData = null){
+    echo "yooo";
+    var_dump($ControllerData);exit;
     $this -> ViewsPath = sm::Dir("Views");
     $this -> GetViewData($ViewFileName);
     // If not using presto syntax, we can output the raw view file and stop the scripts
@@ -20,6 +23,7 @@ function __construct($ViewFileName, $ControllerData = null){
         $this -> OutputFinalView($this -> RawViewData);
         return;
     }
+    if(!empty($ControllerData)) $this -> ControllerData = $ControllerData;
     $this -> ParseViewData(); // This handles checking for layout, includes and requires
     $this -> MergeLayoutViewData();
     $this -> OutputFinalView($this -> FinalOutputData);
@@ -144,6 +148,7 @@ function MergeLayoutViewData(){
                 $SectionFound = array_search("@section($y)", $FoundSections[1]);
                 if($SectionFound !== false){
                     $OutputData = str_replace("@yield($y)", $FoundSections[2][$SectionFound], $OutputData);
+                    // var_dump($OutputData);exit;
                 }else{
                     // Remove unused yields
                     $OutputData = str_replace("@yield($y)", "", $OutputData);

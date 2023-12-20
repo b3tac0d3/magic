@@ -2,37 +2,54 @@
 
 namespace Document;
 use sm;
+use Document\ErrorClass;
 
 // Presto syntax is determined based on the contents of the file. The first line in the file should be @presto. If not, it will load as regualar HTML
 
 class RouteClass{
+
+    private $RequrestType = "get";
+    private $Error;
     
-    function __construct(){
+    function __Construct(){
         if(empty($_SESSION)) session_start();
-    } // __construct()
+        $this -> Error = new ErrorClass();
+    } // __Construct()
 
-    function View($FileName, $PassData = null, $RequestType = "get"){
-        // Used for calling a view file directly with know controller, session or authorization needed.
-        // PassData is used for passing data from the model to the view. It should always be done in json format
-        // Make sure we have a valid file
-        $FileName = $this -> CheckFileExists(sm::Dir("Views") . $FileName);
-        new ViewClass($FileName);
-    } // view()
+    function View($FileName, $PassData = null){
+        # Used for calling a view file directly with no controller, session or authorization needed.
+        # PassData is used for passing data from the model to the view. Default value is PHP array format. Consider adding JSON option later.
+        
+        $FileName = $this -> CheckFileExists(sm::Dir("Views") . $FileName); // Make sure we have a valid file
+        new ViewClass($FileName, $PassData); // Call the ViewClass to handle view data
+        return $this; // Return for chaining purposes
+    } // View()
+        
+    function Ctrl($FileName, $ViewFileName = null, $ClassName = null, $Function = null){
+        # Used for calling a controller
+        # FileName = Name of controller file
+        # ClassName = Defaults to pascale case filename + "Class" or can be defined here
+        # Function = Name of specific function to run if not otherwise run automatically when called
 
-    function Ctrl($FileName, $ModelName = null, $ClassName = null, $Function = null, $RequestType = "get"){
-        // Used for calling a controller
-        $ClassName = $ClassName ?: ucwords($FileName) . "Controller";
-        $FileName = $this -> CheckFileExists(sm::Dir("Controllers") . $FileName);
-        new ControllerClass($FileName, $ModelName, $Function, $ClassName);
-    } // ctrl()
+        $ClassName = $ClassName ?: ucwords($FileName) . "Controller"; // Define ClassName if not passed in
+        if(empty($ViewFileName)) $ViewFileName = $FileName;
+        $FileName = $this -> CheckFileExists(sm::Dir("Controllers") . $FileName); // Make sure we have a valid file
+        new ControllerClass($FileName, $ClassName, $Function); // Call the ControllerClass to handle request
+        return $this; // Return for chaining purposes
+    } // Ctrl()
 
     function Sess(){
         // Used for checking a session before loading a logged-in or session file
-    } // sess()
+    } // Sess()
 
     function Auth(){
         // Used for broad page authorization through RBAC
-    } // auth()
+    } // Auth()
+
+    function SetRequestType($RequestType){
+        $this -> RequrestType = $RequestType;
+        return $this;
+    } // SetRequestType()
 
     function GetUri(){
         $uri = $_SERVER['REQUEST_URI'];
@@ -47,7 +64,7 @@ class RouteClass{
         if(!empty($base_uri_ext = $_SESSION["Root"]["App"]["BaseUriExt"])) $uri = str_replace($base_uri_ext, "", $uri);
         
         return $uri;
-    } // get_uri()
+    } // GetUri()
 
     private function CheckFileExists($FileName){
         // Start by parsing file name to replace dots with slashes. This is for simple routing
@@ -57,16 +74,9 @@ class RouteClass{
         }elseif(is_file($FileName .= ".php")){ // Check if we have a files
             return $FileName;
         }else{ // Throw an error because it's not an existing dir or file
-            $this -> SetError(404);
+            $this -> Error -> SetError(404);
             return false;
         }
-    } // check_file_existence()
+    } // CheckFileExists()
 
-    private function SetError($code, $ErrorStatus = true){
-        if($code == 404){
-            new ViewClass(sm::Dir("Views") . "errors/404.php");
-            exit();
-        }
-    }
-
-}
+} // class RouteClass

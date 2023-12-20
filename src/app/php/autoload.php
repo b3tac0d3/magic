@@ -12,7 +12,8 @@ require_multi(
     "model",
     "authorize",
     "session",
-    "route"
+    "route",
+    "error"
 );
 
 function require_multi($files) {
