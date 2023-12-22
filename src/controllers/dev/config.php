@@ -8,8 +8,7 @@ function __construct(){
     $this -> GetModel("dev.config");
     $this -> Model = new DevConfigModel();
     $this -> AddViewData("Content", $this -> CreateOutput());
-    $this -> GetView();
-    
+    $this -> GetView("dev.config");
 } // __Construct()
 
 function CreateOutput(){

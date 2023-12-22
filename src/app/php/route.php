@@ -11,7 +11,7 @@ class RouteClass{
     private $RequrestType = "get";
     private $Error;
     
-    function __Construct(){
+    function __construct(){
         if(empty($_SESSION)) session_start();
         $this -> Error = new ErrorClass();
     } // __Construct()
@@ -25,14 +25,13 @@ class RouteClass{
         return $this; // Return for chaining purposes
     } // View()
         
-    function Ctrl($FileName, $ViewFileName = null, $ClassName = null, $Function = null){
+    function Ctrl($FileName, $ClassName = null, $Function = null){
         # Used for calling a controller
         # FileName = Name of controller file
         # ClassName = Defaults to pascale case filename + "Class" or can be defined here
         # Function = Name of specific function to run if not otherwise run automatically when called
 
         $ClassName = $ClassName ?: ucwords($FileName) . "Controller"; // Define ClassName if not passed in
-        if(empty($ViewFileName)) $ViewFileName = $FileName;
         $FileName = $this -> CheckFileExists(sm::Dir("Controllers") . $FileName); // Make sure we have a valid file
         new ControllerClass($FileName, $ClassName, $Function); // Call the ControllerClass to handle request
         return $this; // Return for chaining purposes

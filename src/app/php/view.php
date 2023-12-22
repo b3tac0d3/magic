@@ -12,10 +12,9 @@ private $RawLayoutData;
 private $FinalOutputData;
 private $SessionVerified = 0;
 private $ControllerData;
-
+private $YieldsData;
+private $SectionsData;
 function __construct($ViewFileName, $ControllerData = null){
-    echo "yooo";
-    var_dump($ControllerData);exit;
     $this -> ViewsPath = sm::Dir("Views");
     $this -> GetViewData($ViewFileName);
     // If not using presto syntax, we can output the raw view file and stop the scripts
@@ -25,6 +24,8 @@ function __construct($ViewFileName, $ControllerData = null){
     }
     if(!empty($ControllerData)) $this -> ControllerData = $ControllerData;
     $this -> ParseViewData(); // This handles checking for layout, includes and requires
+    $this -> CaptureLayoutYields();
+    $this -> CaptureViewSections();
     $this -> MergeLayoutViewData();
     $this -> OutputFinalView($this -> FinalOutputData);
 } // __construct()
@@ -117,46 +118,69 @@ function GetRequires(){
     }
 } // GetRequires()
 
-function MergeLayoutViewData(){
+function CaptureLayoutYields(){
+    preg_match_all("/@yield\(\S+\)/i", $this -> RawLayoutData, $FoundYields);
+    $YieldCount = count($FoundYields[0]);
+    $FoundYields = $FoundYields[0];
+    for($i = 0; $i < $YieldCount; $i++){
+        $YieldName = substr($FoundYields[$i], 6, strlen($FoundYields[$i]) - 6);
+        $Yields[] = substr($YieldName, 1, strlen($YieldName) - 2);
+    } // for
+    if(count($Yields) < 1) $Yields = false;
+    $this -> YieldsData = $Yields;
+    return $Yields;
+} // CaptureLayoutYields()
+
+function CaptureViewSections(){
+    $SectionKey = 0;
+
+    // This expression is purposely using negactive lookback for the .0000001% chance that the user is trying to reference presto syntax in their code
+    preg_match_all("/((?<!\\\)\@section\(\S+\))(.*?)((?<!\\\)\@endsection)/sm", $this -> RawViewData, $FoundSections);
+
+    // One the .000001% off chance that there's a reference to an @section or @endsection, fix the backslasmes
+    $FoundSections[2] = str_replace("\@section", "@section", $FoundSections[2]);
+    $FoundSections[2] = str_replace("\@endsection", "@endsection", $FoundSections[2]);
     
-    $YieldCount = 0;
-    $YieldArray = array();
+    foreach($FoundSections[1] as $Section){
+        // Set up the section name for the array keys
+        $SectionName = substr($Section, strpos($Section, "(") + 1, strpos($Section, ")") - 9);
+        // Get the current section content
+        $CurrentSection = $FoundSections[2][$SectionKey];
+        // Check for possible dynamic variables in presto
+        preg_match("{{.*}}",$CurrentSection, $Variables);
+        // If variables are found, process accordingly
+        if(count($Variables) > 0) $CurrentSection = $this -> ConvertSectionVariables($CurrentSection, $Variables);
+        // Add section content to section array
+        $SectionsArray[$SectionName] = $CurrentSection;
+        $SectionKey ++;
+    }
+    $this -> SectionsData = $SectionsArray;
+    return $SectionsArray;
+} // CaptureViewSections()
 
+function ConvertSectionVariables($SectionData, $VariablesArray){
+    $SplitArray = (explode(" ", str_replace(["{","}"], "", $VariablesArray[0])));
+    foreach($SplitArray as $k => $v){
+        if(!empty($this -> ControllerData[$v])){
+            $SectionData = str_replace("{{{$v}}}", $this -> ControllerData[$v], $SectionData);
+        }else{
+            $SectionData = str_replace("{{{$v}}}", "", $SectionData);
+        }
+    }
+    return $SectionData;
+} // CaptureSectionVariables()
+
+function MergeLayoutViewData(){
     $OutputData = $this -> RawLayoutData;
-
-    if(!empty($this -> RawLayoutData)){
-        // Process layout file data
-        preg_match_all("/@yield\(\S+\)/i", $this -> RawLayoutData, $FoundYields);
-        $YieldCount = count($FoundYields[0]);
-        $FoundYields = $FoundYields[0];
-
-        for($i = 0; $i < $YieldCount; $i++){
-            $YieldName = substr($FoundYields[$i], 6, strlen($FoundYields[$i]) - 6);
-            $Yields[] = substr($YieldName, 1, strlen($YieldName) - 2);
-        } // for
-
-        // Process view file data
-        preg_match_all("/((?<!\\\)\@section\(\S+\))(.*?)((?<!\\\)\@endsection)/sm", $this -> RawViewData, $FoundSections);
-
-        // One the .000001% off chance that there's a reference to an @section or @endsection, fix the backslasmes
-        $FoundSections[2] = str_replace("\@section", "@section", $FoundSections[2]);
-        $FoundSections[2] = str_replace("\@endsection", "@endsection", $FoundSections[2]);
-        
-        // Merge the two data sets and remove additional @yield's that might not be fulfilled
-        if(count($Yields) > 0){
-            foreach($Yields as $y){
-                $SectionFound = array_search("@section($y)", $FoundSections[1]);
-                if($SectionFound !== false){
-                    $OutputData = str_replace("@yield($y)", $FoundSections[2][$SectionFound], $OutputData);
-                    // var_dump($OutputData);exit;
-                }else{
-                    // Remove unused yields
-                    $OutputData = str_replace("@yield($y)", "", $OutputData);
-                }
-            } // for
-        } // if(count($Yields) > 0)
-    } // if(empty(RawLayoutData))
-
+    foreach($this -> YieldsData as $k => $y){
+        if(!empty($this -> SectionsData[$y])){
+            // $SectionData = $this -> CaptureSectionVariables($SectionData);
+            $OutputData = str_replace("@yield($y)", $this -> SectionsData[$y], $OutputData);
+        }else{
+            // Remove unused yields
+            $OutputData = str_replace("@yield($y)", "", $OutputData);
+        }
+    } // for
     $this -> FinalOutputData = $OutputData;
 } // MergeLayoutViewData()
 

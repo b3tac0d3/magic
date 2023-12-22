@@ -3,38 +3,30 @@
 namespace Document;
 use sm;
 use Document\RouteClass;
+use Document\ViewClass;
 
 class ControllerClass{
 
-private $File;
 private $Controller;
 public $Model;
-private $Function;
-private $ViewFile;
 private $ViewData = array();
 
-function __Construct($File = null, $ViewFile = null, $Class = null, $Function = null){
-    var_dump($ViewFile);
-    $this -> SetController($this -> File = $File);
+function __Construct($ControllerFile = null, $Class = null, $Function = null){
+    $this -> SetController($ControllerFile);
     if(!empty($Class)) $this -> SetClass($Class);
     if(!empty($Function)) $this -> RunFunction($Function);
-    if(!empty($ViewFile)) 
-        $this -> ViewFile = $ViewFile;
-    else
-        $this -> ViewFile = $File;
 } // Construct()
 
 function SetController($File){
     require_once($File);
 } // SetController()
 
-function SetClass($Class, $Function = null){
+function SetClass($Class){
     $this -> Controller = new $Class;
 } //SetClass()
 
 function RunFunction($Function){
-    $this -> Function = $Function;
-    ($this -> Controller) -> $Function();
+    $this -> Controller -> $Function();
 } // RunFunction()
 
 function AddViewData($Key, $Data){
@@ -51,9 +43,9 @@ function GetModel($Model){
 } // GetModel()
 
 function GetView($File){
-    if(empty($File)) $File = $this -> ViewFile;
     $Route = new RouteClass();
-    $Route -> View($File, $$this -> ViewData);
+    $Route -> View($File, $this -> ViewData);
+    return;
 }
 
 
