@@ -3,6 +3,7 @@
 namespace Document;
 use sm;
 use Document\SessionClass;
+use Document\ErrorClass;
 
 class ViewClass{
 
@@ -14,8 +15,11 @@ private $SessionVerified = 0;
 private $ControllerData;
 private $YieldsData;
 private $SectionsData;
+private $Error;
+
 function __construct($ViewFileName, $ControllerData = null){
     $this -> ViewsPath = sm::Dir("Views");
+    $this -> Error = new ErrorClass();
     $this -> GetViewData($ViewFileName);
     // If not using presto syntax, we can output the raw view file and stop the scripts
     if($this -> CheckPrestoSyntax() != true){
@@ -61,8 +65,8 @@ function GetSess($BypassMatch = 0){
     if(!empty(preg_match("/@sess/i", $this -> RawViewData, $SessRequired)) || $BypassMatch == 1){
         $Sess = new SessionClass();
         if($Sess -> ValidateUserSession() != 1){
-            new ViewClass($this -> ViewsPath . "errors/session.php");
-            exit;
+            $this -> Error -> SetError("Sess");
+            return false;
         }
     }
     // If we've made it this far, set SessionVerified in case auth is also being used at the same time so it doesn't repeat the cycle
@@ -80,8 +84,8 @@ function GetAuth(){
         if($this -> SessionVerified != 1) $this -> GetSess(true);
         $Auth = new AuthClass();
         if($Auth -> AuthUserPage($PermissionRequired[1]) != 1){
-            new ViewClass($this -> ViewsPath . "errors/auth.php");
-            exit();
+            $this -> Error -> SetError("Auth");
+            return false;
         }
     }
 }

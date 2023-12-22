@@ -39,10 +39,12 @@ class RouteClass{
 
     function Sess(){
         // Used for checking a session before loading a logged-in or session file
+        return $this;
     } // Sess()
 
-    function Auth(){
+    function Auth($PermissionRequired){
         // Used for broad page authorization through RBAC
+        return $this;
     } // Auth()
 
     function SetRequestType($RequestType){

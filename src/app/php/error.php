@@ -12,11 +12,20 @@ class ErrorClass{
     } // __Construct()
 
 
-    function SetError($code, $ErrorStatus = true){
-        if($code == 404){
-            new ViewClass(sm::Dir("Views") . "errors/404.php");
-            exit();
+    function SetError($Code, $ErrorStatus = true){
+        $Errors = sm::Dir("Views") . "errors/";
+        switch($Code){
+            case 404:
+                new ViewClass($Errors . "404.php");
+                break;
+            case "Auth":
+                new ViewClass($Errors . "auth.php");
+                break;
+            case "Sess":
+                new ViewClass($Errors . "session.php");
+                break;
         }
+        exit;
     } // SetError()
 
 } // class ErrorClass
