@@ -6,10 +6,6 @@ class DevConfigModel extends ModelClass{
 
 private $Output;
 
-function __Construct(){
-    
-}
-
 function ListVars($Input){
     foreach($Input as $k => $v){
         if(is_array($v)){

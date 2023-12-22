@@ -1,7 +1,5 @@
 @presto
 
-@sess
-
 @layout(layouts.primary)
 
 @section(content)
