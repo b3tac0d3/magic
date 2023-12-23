@@ -5,33 +5,34 @@ $aces_doc_root = $_SERVER["DOCUMENT_ROOT"];
 $aces_log_directory = "logs/";
 
 // Master config file for aces
-define("aces_config", 1); // DO NOT CHANGE
+define("AcesConfig", 1); // DO NOT CHANGE
 
 // Database conneection info
-define("aces_db_host", $_SESSION['fnd']['db']['host']);
-define("aces_db_charset", $_SESSION['fnd']['db']['charset']);
-define("aces_db_port", $_SESSION['fnd']['db']['port']);
-define("aces_db_name", $_SESSION['fnd']['db']['database']);
-define("aces_db_user", $_SESSION['fnd']['db']['username']);
-define("aces_db_pass", $_SESSION['fnd']['db']['password']);
+define("AcesDbHost", $_SESSION['Root']['Db']['Host']);
+define("AcesDbCharset", $_SESSION['Root']['Db']['Charset']);
+define("AcesDbPort", $_SESSION['Root']['Db']['Port']);
+define("AcesDbName", $_SESSION['Root']['Db']['Database']);
+define("AcesDbUser", $_SESSION['Root']['Db']['Username']);
+define("AcesDbPass", $_SESSION['Root']['Db']['Password']);
 
 // Turn file logs on or off
-define("aces_log_status_query", true); // Query log on or off (true | false)
-define("aces_log_status_connection", true); // Connection log on or off (true | false)
-define("aces_log_status_error", true); // Error log on or off (true |)
+define("AcesLogStatusQuery", true); // Query log on or off (true | false)
+define("AcesLogStatusConnection", true); // Connection log on or off (true | false)
+define("AcesLogStatusError", true); // Error log on or off (true |)
 
 // Log file paths (directories)
-define("aces_log_file_dir_query", $aces_doc_root . $aces_log_directory); // Query log file location
-define("aces_log_file_dir_connection", $aces_doc_root . $aces_log_directory); // Connection log file location
-define("aces_log_file_dir_query_error", $aces_doc_root . $aces_log_directory); // Query error log file location
-define("aces_log_file_dir_connection_error", $aces_doc_root . $aces_log_directory); // Connection error log file location
+define("AcesLogFileDirQuery", $aces_doc_root . $aces_log_directory); // Query log file location
+define("AcesLogFileDirConnection", $aces_doc_root . $aces_log_directory); // Connection log file location
+define("AcesLogFileDirQueryError", $aces_doc_root . $aces_log_directory); // Query error log file location
+define("AcesLogFileDirConnectionError", $aces_doc_root . $aces_log_directory); // Connection error log file location
 
 // Log options
-define("aces_log_time_limit_query", "M"); // Default to monthly - "W" (Weekly) | "M" (Monthly) | "Q" (Quarterly) | "Y" (Yearly)
-define("aces_log_time_limit_connection", "M"); // Default to monthly - "W" (Weekly) | "M" (Monthly) | "Q" (Quarterly) | "Y" (Yearly)
+// How long until starting a new log
+define("AcesLogTimeLimitQuery", "M"); // Default to monthly - "W" (Weekly) | "M" (Monthly) | "Q" (Quarterly) | "Y" (Yearly)
+define("AcesLogTimeLimitConnection", "M"); // Default to monthly - "W" (Weekly) | "M" (Monthly) | "Q" (Quarterly) | "Y" (Yearly)
 
 // Database record logging options
-define("aces_db_record_logging_life", true); // Set to false if you don't want to log record create and delete records in the database
-define("aces_db_record_logging_edits", true); // Set to false if you don't want to log record edits and values in the database
+define("AcesDbRecordLoggingLife", true); // Set to false if you don't want to log record create and delete records in the database
+define("AcesDbRecordLoggingEdits", true); // Set to false if you don't want to log record edits and values in the database
 
 ?>

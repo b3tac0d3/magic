@@ -1,6 +1,6 @@
 <?php
 
-namespace aces;
+namespace Aces;
 
 /* 
     fopen modes
@@ -17,20 +17,20 @@ namespace aces;
     "e" - Only available in PHP compiled on POSIX.1-2008 conform systems.
 
     function set_log(){ 
-        $data = array("test"=>"jimmy", "userid"=>1);
+        $Data = array("test"=>"jimmy", "userid"=>1);
         $size = filesize("src/logs/sql_schema.json");
-        $file = fopen("src/logs/sql_schema.json", "w+");
-        $readdata = array_merge(json_decode(fread($file, $size)), $data);
-        fwrite($file, json_encode($readdata));
-        fclose($file);
+        $File = fopen("src/logs/sql_schema.json", "w+");
+        $readdata = array_merge(json_decode(fread($File, $size)), $Data);
+        fwrite($File, json_encode($readdata));
+        fclose($File);
     }
 
     function get_log(){
         $size = filesize("src/logs/sql_schema.json");
-        $file = fopen("src/logs/sql_schema.json", "r"); 
-        $data = fread($file, $size);
-        fclose($file);
-        print_r(json_decode($data));
+        $File = fopen("src/logs/sql_schema.json", "r"); 
+        $Data = fread($File, $size);
+        fclose($File);
+        print_r(json_decode($Data));
     }
 
     get query execution time
@@ -40,130 +40,127 @@ namespace aces;
     $execute = $end - $start
 */
 
-class log{
+class Log{
 
     // Log directory
-    private $log_dir;
+    private $LogDirectory;
 
     // Log file name
-    private $log_name;
+    private $LogName;
 
     // Log file path (dir/name.txt)
-    private $log_path;
+    private $LogPath;
 
     // Header to insert in to log file
-    private $header;
+    private $Header;
 
     // Log type in case we need to reference it later or in future updates
-    private $log_type;
+    private $LogType;
 
     // Data to be inserted in to log record
-    private $log_record;
+    private $LogRecord;
 
     // ID of new record being added to file
-    private $new_record_id;
+    private $NewRecordId;
 
-
-    function __construct(){}
-
-    function set_record($type = "query", $data = array()){
+    function SetRecord($Type = "query", $Data = array()){
         // Setup main variables to run scripts
-        $this -> set_variables($type);
+        $this -> SetVariables($Type);
         
         // Check for log directory and make new if necessary
-        if(!is_dir($this -> log_dir)) mkdir($this -> log_dir);
+        if(!is_dir($this -> LogDirectory)) mkdir($this -> LogDirectory);
 
         // Open file for read/append
-        $write_file = fopen($this -> log_path, "a+");
+        $WriteFile = fopen($this -> LogPath, "a+");
 
-        // Get file size for reading and applying header if needed
-        $read_size = filesize($this -> log_path);
+        // Get file size for reading and applying Header if needed
+        $ReadSize = filesize($this -> LogPath);
 
-        // Check if file has data. If not, make header to start
-        if($read_size < 1){
-            fwrite($write_file, $this -> header);
-            $this -> new_record_id = 1;
+        // Check if file has data. If not, make Header to start
+        if($ReadSize < 1){
+            fwrite($WriteFile, $this -> Header);
+            $this -> NewRecordId = 1;
         }else{
             // Get file data to put in to array
-            $file_data = fread($write_file, $read_size);
+            $FileData = fread($WriteFile, $ReadSize);
         }
 
         // Load file data to array
-        if(!empty($file_data)) $file_data_array = explode("\n", $file_data);
+        if(!empty($FileData)) $FileDataArray = explode("\n", $FileData);
 
         // Get last element of array for last ID
-        if(empty($this -> new_record_id))  $this -> new_record_id = intval(explode(trim("|"), end($file_data_array))[0]) + 1;
+        if(empty($this -> NewRecordId))  $this -> NewRecordId = intval(explode(trim("|"), end($FileDataArray))[0]) + 1;
         
         // Make new record
-        $this -> create_record($data);
+        $this -> CreateRecord($Data);
 
         // Add the record to the file
-        fwrite($write_file, $this -> log_record);
+        fwrite($WriteFile, $this -> LogRecord);
 
         // Close file
-        if(!empty($file)) fclose($file);
-    } // set_record()
+        if(!empty($File)) fclose($File);
+    } // SetRecord()
 
-    function set_variables($type){
-        switch($this -> log_type = $type){
+    function SetVariables($Type){
+        switch($this -> LogType = $Type){
             case "query":
-                $this -> header = "id | date | time | ip | table | result count | run time | query";
-                $this -> log_dir = aces_log_file_dir_query;
+                $this -> Header = "id | date | time | ip | table | result count | run time | query";
+                $this -> LogDirectory = AcesLogFileDirQuery;
                 break;
             case "connection":
-                $this -> header = "id | date | time | ip | database";
-                $this -> log_dir = aces_log_file_dir_connection;
+                $this -> Header = "id | date | time | ip | database";
+                $this -> LogDirectory = AcesLogFileDirConnection;
                 break;
             case "query_error":
-                $this -> header = "id | date | time | ip | error | query";
-                $this -> log_dir = aces_log_file_dir_query_error;
+                $this -> Header = "id | date | time | ip | error | query";
+                $this -> LogDirectory = AcesLogFileDirQueryError;
                 break;
             case "connection_error":
-                $this -> header = "id | date | time | ip | error";
-                $this -> log_dir = aces_log_file_dir_connection_error;
+                $this -> Header = "id | date | time | ip | error";
+                $this -> LogDirectory = AcesLogFileDirConnectionError;
                 break;
         }
         
         // Generate log name
-        $this -> log_name = date("Ym") . "_aces_{$type}_log.txt";
-        $this -> log_path = $this -> log_dir . $this -> log_name;
+        $this -> LogName = date("Ym") . "_aces_{$Type}_log.txt";
+        $this -> LogPath = $this -> LogDirectory . $this -> LogName;
         return $this;
-    } // set_variables()
+    } // SetVariables()
 
-    function create_record($data){
+    function CreateRecord($Data){
         date_default_timezone_set('America/New_York');
-        extract($data);
+        extract($Data);
         
-        $log_date = date("Y_m_d");
-        $log_time = date("H:i:s");
+        $LogDate = date("Y_m_d");
+        $LogTime = date("H:i:s");
         
         // Delimiter
-        $d = "|";
-        $record_id = $this -> new_record_id;
-        $ip = $_SERVER["REMOTE_ADDR"];
+        $Delimiter = "|";
+        $RecordId = $this -> NewRecordId;
+        $UserIp = $_SERVER["REMOTE_ADDR"];
         
-        $initial_record_data =  "\n$record_id $d $log_date $d $log_time $d $ip $d";
+        $InitialRecordData =  "\n$RecordId $Delimiter $LogDate $Delimiter $LogTime $Delimiter $UserIp $Delimiter";
         
-        switch($this -> log_type){
-            case "query":
+        switch($this -> LogType){
+            case "Query":
                 // id | date | time | ip | table | result count | run time | query
-                $this -> log_record = "$initial_record_data $table $d $result_count $d $run_time $d $query_string";
+                $this -> LogRecord = "$InitialRecordData $Table $Delimiter $ResultCount $Delimiter $RunTime $Delimiter $QueryString";
                 break;
-            case "connection":
+            case "Connection":
                 // id | date | time | ip | database
-                $this -> log_record = "$initial_record_data $database";
+                $this -> LogRecord = "$InitialRecordData $Database";
                 break;
-            case "query_error":
+            case "QueryError":
                 // id | date | time | ip | error | query string
-                $this -> log_record = "$initial_record_data $error $d $query_string";
+                $this -> LogRecord = "$InitialRecordData $Error $Delimiter $QueryString";
                 break;
-            case "connection_error":
+            case "ConnectionError":
                 // id | date | time | ip | error
-                $this -> log_record = "$initial_record_data $error";
+                $this -> LogRecord = "$InitialRecordData $Error";
                 break;
         }
         return $this;
-    } // create_record()
+    } // CreateRecord()
 
 } // class log
 ?>

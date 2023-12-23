@@ -1,50 +1,45 @@
 <?php
 
-namespace aces;
+namespace Aces;
 use PDO;
 use PDOException;
-use error_handler\load_errors;
 
-class table extends db{
+class Table extends Db{
     
     // Databse object
-    private $db;
+    private $Db;
 
     // Table name
-    private $table_name;
+    private $TableName;
 
     // Executable query string
-    private $query_string;
+    private $QueryString;
 
     // List of columns for query
-    private $columns_list;
+    private $ColumnsList;
 
-
-    
 
     function __construct(){
-        $this -> db = $this -> connect();
+        $this -> Db = $this -> Connect();
     }
 
-    function create($name, $columns = array()){
+    function Create($Name, $Columns = array()){
         /* 
             $tbl -> add_col("id", "int", 11, "not null primary key auto_increment")
             $tbl -> create($cols)
 
         */
-        $this -> table_name = $name;
+        $this -> TableName = $Name;
         // $this -> columns_list = $this -> format_columns($columns);
     }
 
-    function truncate(){}
+    function Truncate(){}
 
-    function update(){}
+    function Update(){}
 
-    function add_col($name, $type, $length = null, $params = null){
+    function AddColumn($Name, $Type, $Length = null, $Params = null){}
 
-    }
-
-    function delete_col(){}
+    function DeleteColumn(){}
 
     private function sample_array(){
         // Just a sample array for reference
@@ -69,5 +64,5 @@ class table extends db{
         );
     }
 
-} // class table
+} // class Table
 ?>

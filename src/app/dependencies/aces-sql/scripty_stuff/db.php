@@ -1,39 +1,39 @@
 <?php
 
-namespace aces;
+namespace Aces;
 use PDO;
 use PDOException;
 
-if(!defined("aces_config")) require_once($_SERVER['DOCUMENT_ROOT'] . "/src/app/plugins/aces/config.php");
+if(!defined("AcesConfig")) require_once($_SERVER['DOCUMENT_ROOT'] . "/src/app/plugins/aces/config.php");
 
-class db{
-    private $log;
-    private $db;
+class Db{
+    private $Log;
+    private $Db;
 
-    function connect($db_name = null){
-        $this -> log = new log();
+    function connect($DbName = null){
+        $this -> Log = new Log();
         if(empty($_SESSION)) session_start();
-        $host = aces_db_host;
-        $charset = aces_db_charset;
-        $port = aces_db_port;
-        $user = aces_db_user;
-        $pass = aces_db_pass;
-        if(empty($db_name)) $db_name = aces_db_name;
+        $Host = AcesDbHost;
+        $Charset = AcesDbCharset;
+        $Port = AcesDbPort;
+        $User = AcesDbUser;
+        $Pass = AcesDbPass;
+        if(empty($Db_name)) $Db_name = AcesDbName;
 
         try{
-            $this -> db = new PDO("mysql:host=$host;charset=$charset;port=$port;dbname=$db_name", $user, $pass);
+            $this -> Db = new PDO("mysql:host=$Host;charset=$Charset;port=$Port;Dbname=$DbName", $User, $Pass);
         }catch(PDOException $e){
-            // $this -> log -> set_record("connection_error", ["error" => trim($e -> getMessage())]);
+            // $this -> Log -> set_record("connection_error", ["error" => trim($e -> getMessage())]);
             echo $e -> getMessage();
             return;
         } // try
 
-        $this -> db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this -> Db -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        // If we've made it this far, log the good connection
-        $this -> log -> set_record("connection", ["database" => $db_name]);
-        return $this -> db;
+        // If we've made it this far, Log the good connection
+        $this -> Log -> set_record("connection", ["Database" => $DbName]);
+        return $this -> Db;
     } // connect()
-} // class db
+} // class Db
 
 ?>

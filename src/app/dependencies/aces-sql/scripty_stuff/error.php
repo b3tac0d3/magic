@@ -1,13 +1,13 @@
 <?
 
-namespace aces;
+namespace Aces;
 
-class error_handler{
+class ErrorHandler{
 
-    function throw_error($error_type, $error = array("message", "page_title", "custom_text")){
+    function ThrowError($ErrorType, $ErrorMessage, $PageTitle = null, $CustomText = null){
 
-    } // throw_error()
+    } // ThrowError()
 
-} // class error_handler
+} // class ErrorHandler
 
 ?>

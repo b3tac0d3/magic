@@ -1,22 +1,19 @@
 <?php
 
-class forms{
+class Forms{
 
-    public static function print_form($form_name, $form_dir = null){
+    public static function PrintForm($FormName, $FormDir = null){
         /*
-            $form_dir is optional when the form is stored in a different
+            $FormDir is optional when the form is stored in a different
             directory other than the default.
 
             - Consider using init file to define default directory
             
          */
-        if(empty($form_dir)) $form_dir = sm::dir("user_forms");
-        if(!strpos($form_name, ".php")) $form_name .= ".php";
-        $form = include_once($form_dir . $form_name);
-        echo $form;
+        if(empty($FormDir)) $FormDir = sm::dir("user_forms");
+        if(!strpos($FormName, ".php")) $FormName .= ".php";
+        $Form = include_once($FormDir . $FormName);
+        echo $Form;
     }
 
 } // class fetcher
-
-
-?>

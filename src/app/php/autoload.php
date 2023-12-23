@@ -5,7 +5,7 @@ $depends = $_SESSION["Root"]["App"]["Dirs"]["Depends"];
 $php = $_SESSION["Root"]["App"]["Dirs"]["Php"];
 
 // PHP Scripts
-require_multi(
+RequireMulti(
     "short_map",
     "view",
     "controller",
@@ -16,7 +16,7 @@ require_multi(
     "error"
 );
 
-function require_multi($files) {
+function RequireMulti($files) {
     global $php;
     global $depends;
     $files = func_get_args();

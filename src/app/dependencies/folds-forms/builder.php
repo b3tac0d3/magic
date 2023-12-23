@@ -1,23 +1,23 @@
 <?php
 
-namespace folds;
+namespace Folds;
 use sm;
 
-class builder{
+class Builder{
     
-    private $elements;
+    private $Elements;
 
-    function label($value, $attributes = []){
-        // $elements is optional and allows for DOM elements to be added inside label tags for certain types of CSS designs
-        $elem_attributes = $this -> process_attributes($attributes);
+    function Label($Value, $Attributes = []){
+        // $Elements is optional and allows for DOM Elements to be added inside label tags for certain types of CSS designs
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        $this -> elements .= $output = "<label $elem_attributes>$value</label>";
-        return $output;
+        $this -> Elements .= $Output = "<label $ElementAttributes>$Value</label>";
+        return $Output;
     } // label()
 
-    function input($type, $attributes = []){
+    function Input($Type, $Attributes = []){
         /*  Example
-            input -> ("text", [
+            Input -> ("text", [
                 "name:username", 
                 "placeholder:username", 
                 "id:username", 
@@ -25,210 +25,209 @@ class builder{
                 "class:class1 class2 class3"
             ]);
         */
-        $elem_attributes = $this -> process_attributes($attributes);
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
         
-        $this -> elements .= $output = "<input type = '$type' $elem_attributes/>";
-        return $output;
-    } // input()
+        $this -> Elements .= $Output = "<Input type = '$Type' $ElementAttributes/>";
+        return $Output;
+    } // Input()
 
-    function select($attributes = [], $options = null){
-        $elem_attributes = $this -> process_attributes($attributes);
+    function Select($Attributes = [], $Options = null){
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        $this -> elements .= $output = "<select $elem_attributes>$options</select>";
-        return $output;
-    } // select()
+        $this -> Elements .= $Output = "<Select $ElementAttributes>$Options</Select>";
+        return $Output;
+    } // Select()
 
-    function select_option($value, $attributes = []){
+    function SelectOption($Value, $Attributes = []){
         // If attributes doesn't contain a "value" option, option value will default to name value
-        $elem_attributes = $this -> process_attributes($attributes);
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        if(!empty($elem_attributes) && !strpos($elem_attributes,"value=")){
+        if(!empty($ElementAttributes) && !strpos($ElementAttributes,"value=")){
             // No user assigned value so given by function
-            $elem_attributes .= " value='$value'";
+            $ElementAttributes .= " value='$Value'";
         }
 
-        $this -> elements .= $output = "<option $elem_attributes>$value</option>";
-        return $output;
-    } // select_option()
+        $this -> Elements .= $Output = "<option $ElementAttributes>$Value</option>";
+        return $Output;
+    } // SelectOption()
 
-    function select_optgroup($label, $options, $attributes = []){
-        $elem_attributes = $this -> process_attributes($attributes);
+    function SelectOptGroup($Label, $Options, $Attributes = []){
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        $this -> elements .= $output = "<optgroup label='$label' $elem_attributes>$options</optgroup>";
-        return $output;
-    } // select_optgroup()
+        $this -> Elements .= $Output = "<optgroup label='$Label' $ElementAttributes>$Options</optgroup>";
+        return $Output;
+    } // SelectOptGroup()
 
-    function textarea($attributes = [], $value = null){
-        $elem_attributes = $this -> process_attributes($attributes);
+    function Textarea($Attributes = [], $Value = null){
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        $this -> elements .= $output = "<textarea $elem_attributes>$value</textarea>";
-        return $output;
-    } // textarea()
+        $this -> Elements .= $Output = "<Textarea $ElementAttributes>$Value</Textarea>";
+        return $Output;
+    } // Textarea()
 
-    function button($value, $attributes = []){
-        $elem_attributes = $this -> process_attributes($attributes);
+    function Button($Value, $Attributes = []){
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        $this -> elements .= $output = "<button $elem_attributes>$value</button>";
-        return $output;
-    } // button()
+        $this -> Elements .= $Output = "<Button $ElementAttributes>$Value</Button>";
+        return $Output;
+    } // Button()
 
-    function meter(){} // meter()
+    function Meter(){} // Meter()
 
-    function progress(){} // progress()
+    function Progress(){} // Progress()
 
-    function div($attributes = [], $elements = []){
+    function Div($Attributes = [], $ElementsArray = []){
         /* Example
-        div(
+        Div(
             ["class:text-center"],
-            [$x -> input("text", ["id:username"])]
+            [$x -> Input("text", ["id:username"])]
         ); 
 
-        $element_tag can be antying but defaults to div
+        $element_tag can be antying but defaults to Div
         */
-        $div_elements = null;
+        $DivElements = null;
 
-        // Elements inside the div
-        foreach($elements as $e){
-            $div_elements .= $e;
+        // Elements inside the Div
+        foreach($ElementsArray as $e){
+            $DivElements .= $e;
         }
 
-        $elem_attributes = $this -> process_attributes($attributes);
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
 
-        $this -> elements .= $output = "<div $elem_attributes>$div_elements</div>";
-        return $output;
-    } // div()
+        $this -> Elements .= $Output = "<Div $ElementAttributes>$DivElements</Div>";
+        return $Output;
+    } // Div()
 
-    function elem($tag, $attributes = [], $elements = []){
-            $elem_elements = null;
+    function Element($Tag, $Attributes = [], $ElementsArray = []){
+            $Elements = null;
 
-            // Elements inside the div
-            foreach($elements as $e){
-                $elem_elements .= $e;
+            // Elements inside the Div
+            foreach($ElementsArray as $e){
+                $Elements .= $e;
             }
     
-            $elem_attributes = $this -> process_attributes($attributes);
+            $ElementAttributes = $this -> ProcessAttributes($Attributes);
     
-            $this -> elements .= $output = "<$tag $elem_attributes>$elem_elements</$tag>";
-            return $output;
-    } // elem()
+            $this -> Elements .= $Output = "<$Tag $ElementAttributes>$Elements</$Tag>";
+            return $Output;
+    } // Element()
 
-    function form($attributes = [], $elements = []){
-        $elem_attributes = $this -> process_attributes($attributes);
-        $element_output = null;
-        foreach($elements as $e){
-            $element_output .= $e;
+    function Form($Attributes = [], $ElementsArray = []){
+        $ElementAttributes = $this -> ProcessAttributes($Attributes);
+        $ElementOutput = null;
+        foreach($ElementsArray as $e){
+            $ElementOutput .= $e;
         }
 
         // FIND A WAY TO WORK IN THE MESSAGE CLEANER AND WITH OPTIONS IN THE FUTURE 10/6/23
         return "
-            <form $elem_attributes>
-                <div class = 'form_message text-danger'></div>
-                {$element_output}
-            </form>";
+            <Form $ElementAttributes>
+                <Div class = 'form_message text-danger'></Div>
+                {$ElementOutput}
+            </Form>";
     } // mk_form()
 
-    function print_form($attributes = []){
-        echo $this -> form($attributes);
-    } // print_form()
+    function PrintForm($Attributes = []){
+        echo $this -> Form($Attributes);
+    } // PrintForm()
 
-    function action($input){
-        // Allow action to be entered without .php and with dir-dot syntax
-        $path_array = explode(".", $input);
-        $action = sm::url($path_array[0]);
-        for($x = 1; $x < count($path_array); $x++){
-            $action .= $path_array[$x];
-            if($x < count($path_array) - 1){
-                $action .= "/";
+    function Action($Input){
+        // Allow Action to be entered without .php and with dir-dot syntax
+        $PathArray = explode(".", $Input);
+        $Action = sm::url($PathArray[0]);
+        for($x = 1; $x < count($PathArray); $x++){
+            $Action .= $PathArray[$x];
+            if($x < count($PathArray) - 1){
+                $Action .= "/";
             }else{
-                $action .= ".php";
+                $Action .= ".php";
             }
         }
-        return $action;
-    } // action()
+        return $Action;
+    } // Action()
 
 
 
 
-    private function process_attributes($attributes){
+    private function ProcessAttributes($Attributes){
         // Stop if no attributes assigned
-        if(empty($attributes)) return;
+        if(empty($Attributes)) return;
         
-        $output_attributes = null;
+        $OutputAttributes = null;
         
         // Loop attributes and process
-        foreach($attributes as $a){
+        foreach($Attributes as $a){
             $att_arr = explode("|", $a);
-            $key = $att_arr[0];
+            $Key = $att_arr[0];
 
             // Check for attribute short names
-            if(strlen($key) == 2) $key = $this -> process_short_attribute($key);
+            if(strlen($Key) == 2) $Key = $this -> ProcessShortAttribute($Key);
             
             // Check if attribute is static or dynamic
             if(isset($att_arr[1]) && !empty($val = $att_arr[1])){
-                $output_attributes .= "$key='$val'";
+                $OutputAttributes .= "$Key='$val'";
             }else{
-                $output_attributes .= "$key"; // Assign static attribute (ex: autofocus)
+                $OutputAttributes .= "$Key"; // Assign static attribute (ex: autofocus)
             } // if
             
             // Space between attributes for output readability
-            if(next($attributes) != 0) $output_attributes .= " ";
+            if(next($Attributes) != 0) $OutputAttributes .= " ";
         } // for
 
-        return $output_attributes;
-    } // process_attributes()
+        return $OutputAttributes;
+    } // ProcessAttributes()
 
-    private function process_short_attribute($in){
-        switch(strtolower($in)){
+    private function ProcessShortAttribute($In){
+        switch(strtolower($In)){
             default:
-                $out = $in;
+                $Out = $In;
                 break;
             case "nm":
-                $out = "name";
+                $Out = "name";
                 break;
             case "cl":
-                $out = "class";
+                $Out = "class";
                 break;
             case "tr":
-                $out = "target";
+                $Out = "target";
                 break;
             case "ac":
-                $out = "action";
+                $Out = "Action";
                 break;
             case "st":
-                $out = "style";
+                $Out = "style";
                 break;
             case "ph":
-                $out = "placeholder";
+                $Out = "placeholder";
                 break;
         }
-        return $out;
-    } // process_short_attribute()
+        return $Out;
+    } // ProcessShortAttribute()
 
-    private function process_short_input_name($in){
-        match(strtolower($in)){
-            default => $out = $in,
-            "cl" => $out = "color",
-            "dt" => $out = "date",
-            "dl" => $out = "datetime-local",
-            "em" => $out = "email",
-            "fl" => $out = "file",
-            "hd" => $out = "hidden",
-            "im" => $out = "image",
-            "mn" => $out =  "month",
-            "nm" => $out = "number",
-            "pw" => $out = "password",
-            "rd" => $out = "radio",
-            "rn" => $out = "range",
-            "re" => $out = "reset",
-            "se" => $out = "search",
-            "sm" => $out = "submit",
-            "te" => $out = "tel",
-            "tx" => $out = "text",
-            "tm" => $out = "time",
-            "ur" => $out = "url",
-            "wk" => $out = "week"
+    private function ProcessShortInputName($In){
+        match(strtolower($In)){
+            default => $Out = $In,
+            "cl" => $Out = "color",
+            "dt" => $Out = "date",
+            "dl" => $Out = "datetime-local",
+            "em" => $Out = "email",
+            "fl" => $Out = "file",
+            "hd" => $Out = "hidden",
+            "im" => $Out = "image",
+            "mn" => $Out =  "month",
+            "nm" => $Out = "number",
+            "pw" => $Out = "password",
+            "rd" => $Out = "radio",
+            "rn" => $Out = "range",
+            "re" => $Out = "reset",
+            "se" => $Out = "search",
+            "sm" => $Out = "submit",
+            "te" => $Out = "tel",
+            "tx" => $Out = "text",
+            "tm" => $Out = "time",
+            "ur" => $Out = "url",
+            "wk" => $Out = "week"
         };
-        return $out;
+        return $Out;
     }
 }
-?>
