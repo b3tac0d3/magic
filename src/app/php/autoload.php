@@ -1,11 +1,20 @@
 <?php
 if(empty($_SESSION)) session_start();
 
-$depends = $_SESSION["Root"]["App"]["Dirs"]["Depends"];
-$php = $_SESSION["Root"]["App"]["Dirs"]["Php"];
+function RequireScripts($Files) {
+    $Files = func_get_args();
+    foreach($Files as $File)
+        require_once($_SESSION["Root"]["App"]["Dirs"]["Php"] . $File . ".php");
+}
+
+function RequireDependencies($Files){
+    $Files = func_get_args();
+    foreach($Files as $File)
+        require_once($_SESSION["Root"]["App"]["Dirs"]["Depends"] . $File . ".php");
+}
 
 // PHP Scripts
-RequireMulti(
+RequireScripts(
     "short_map",
     "view",
     "controller",
@@ -16,10 +25,9 @@ RequireMulti(
     "error"
 );
 
-function RequireMulti($files) {
-    global $php;
-    global $depends;
-    $files = func_get_args();
-    foreach($files as $file)
-        require_once($php . $file . ".php");
-}
+// Dependencies
+RequireDependencies(
+    "aces-sql/loader",
+    "folds-forms/loader",
+    "spades-ajax/loader"
+);
