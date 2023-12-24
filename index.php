@@ -92,17 +92,3 @@ require_once $_SESSION["Root"]["App"]["Dirs"]["Php"] . "autoload.php";
 // Final step is to call route file to direct traffic
 require_once "src/routes/routes.php";
 ?>
-
-<!--
-
-    THIS IS GOING TO BE MY Dev NOTES SECTION WHERE I KEEP TRACK OF WHAT I'M DOING AND WHAT'S COMING NEXT
-
-    VIEW STEPS:
-        1) .htaccess re-reoutes all links to index
-        2) index file check preloader, sets foundation and sets cache
-        3) index file then calls routes file
-        4) routes file uses sm file to get URI and match inbound uri
-        5) matched file is run through controller then run through views php file
-        6) file is run through rbac and tests before printing file to screen
-
--->

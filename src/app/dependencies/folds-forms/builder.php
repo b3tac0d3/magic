@@ -133,21 +133,8 @@ class Builder{
 
     function Action($Input){
         // Allow Action to be entered without .php and with dir-dot syntax
-        $PathArray = explode(".", $Input);
-        $Action = sm::url($PathArray[0]);
-        for($x = 1; $x < count($PathArray); $x++){
-            $Action .= $PathArray[$x];
-            if($x < count($PathArray) - 1){
-                $Action .= "/";
-            }else{
-                $Action .= ".php";
-            }
-        }
-        return $Action;
+        return $Input = str_replace(".", "/", $Input) . ".php";
     } // Action()
-
-
-
 
     private function ProcessAttributes($Attributes){
         // Stop if no attributes assigned

@@ -10,7 +10,7 @@ class Forms{
             - Consider using init file to define default directory
             
          */
-        if(empty($FormDir)) $FormDir = sm::dir("user_forms");
+        if(empty($FormDir)) $FormDir = sm::dir("UserForms");
         if(!strpos($FormName, ".php")) $FormName .= ".php";
         $Form = include_once($FormDir . $FormName);
         echo $Form;
