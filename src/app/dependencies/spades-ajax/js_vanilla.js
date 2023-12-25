@@ -26,7 +26,7 @@ function spadeLink(event){
     const parent = element.getAttribute("parent");
 
     if(element.classList.contains("spadeScript"))
-        href = "src/routes/scripts_routes.php?script=" + href;
+        href = "src/routes/scripts_routes.php?Script=" + href;
 
     // If user set "confirm_box", run confirm message before proceeding
     if (confirm_box) {

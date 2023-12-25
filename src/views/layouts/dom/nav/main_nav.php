@@ -13,7 +13,7 @@
         $Nav -> BuildNavLink("Home", "dashboard") .
         $Nav -> BuildNavLink("Documentation", "docs") .
         $Nav -> BuildNavLink("Todo", "todos") .
-        $Nav -> BuildNavLink("Logout", "logout", "spadeScript");
+        $Nav -> BuildNavLink("Logout", "Logout", "spadeScript");
 
     // // $sess = new session\user_session();
 

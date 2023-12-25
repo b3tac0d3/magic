@@ -12,7 +12,7 @@ class ErrorClass{
     } // __Construct()
 
 
-    function SetError($Code, $ErrorStatus = true){
+    function SetError($Code, $ErrorMessage = null, $ErrorStatus = true){
         $Errors = sm::Dir("Views") . "errors/";
         switch($Code){
             case 404:

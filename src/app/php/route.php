@@ -67,6 +67,17 @@ class RouteClass{
         return $uri;
     } // GetUri()
 
+    function RunScript($File, $CLass = null, $Function = null){
+        // Script is passed automatically in the scope
+        require_once $File;
+        if(!empty($Function) && !empty($Class)){
+            $RunClass = new $Class();
+            $RunClass -> $Function();
+        }elseif(!empty($Function) && empty($Class)){
+            $Function();
+        }
+    } // RunScript()
+
     private function CheckFileExists($FileName){
         // Start by parsing file name to replace dots with slashes. This is for simple routing
         $FileName = str_replace(".", "/", $FileName);
@@ -75,7 +86,7 @@ class RouteClass{
         }elseif(is_file($FileName .= ".php")){ // Check if we have a files
             return $FileName;
         }else{ // Throw an error because it's not an existing dir or file
-            $this -> Error -> SetError(404);
+            $this -> Error -> SetError(404, $FileName);
             return false;
         }
     } // CheckFileExists()

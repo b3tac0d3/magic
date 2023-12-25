@@ -1,6 +1,6 @@
 <?php
 
-namespace Document;
+namespace User;
 use Document\ViewClass;
 
 class SessionClass{
@@ -15,7 +15,7 @@ function CreateUserSession($UserName, $UserRole, $UserId){ // pass info in array
     $UserSession["UserId"] = $UserId;
     // Set session variables
     $_SESSION["UserSession"] = $UserSession;
-    return 1;
+    return;
 } // CreateUserSession()
 
 function ValidateUserSession(){
@@ -29,15 +29,15 @@ function ValidateUserSession(){
     // Session not valid or not set
     if(empty($_SESSION["UserSession"])) return 0;
     
-    $sess = $sessLastAct = $_SESSION["UserSession"];
-    $curTime = time();
-    $sessExpire = $sess["LastActivity"] + $sess["ExpireTime"];
+    $Session = $SessionLastAct = $_SESSION["UserSession"];
+    $CurrentTime = time();
+    $SessionExpire = $Session["LastActivity"] + $Session["ExpireTime"];
     
     // Session expired
-    if($sessExpire < $curTime) return -1;
+    if($SessionExpire < $CurrentTime) return -1;
 
     // If we've made it this far, return true
-    return 1;
+    return true;
 } // ValidateUserSession()
 
 function UpdateUserSession(){

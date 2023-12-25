@@ -17,7 +17,7 @@
         $Form -> Input("checkbox", ["nm|rememberMe", "id|exChk1", "cl|form-check-Input"])
     ];
     
-    return $Form -> form(["ac|user_login", "style|width:50%;", "cl|spadeMe spadeScript", "id|login_form"],[
+    return $Form -> form(["ac|UserLogin", "method|get", "style|width:50%;", "cl|spadeMe spadeScript", "id|login_form"],[
             // $Form -> Element("div",["cl|form_message text-danger fw-bold"]),
             $Form -> div(["cl|form-group"], $InputUsername),
             $Form -> div(["cl|form-group"], $InputPassword),

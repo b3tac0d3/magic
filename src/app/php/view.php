@@ -2,7 +2,7 @@
 
 namespace Document;
 use sm;
-use Document\SessionClass;
+use User\SessionClass;
 use Document\ErrorClass;
 
 class ViewClass{

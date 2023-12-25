@@ -1,43 +1,43 @@
 <?php 
-    $frm = new folds\builder();
+    $Form = new Folds\Builder();
 
-    $inp_email = [
-        $frm -> label("Email Address", ["for|username"]),
-        $frm -> input("text", ["nm|username", "id|username", "cl|form-control", "ph|Enter email"])
+    $InputEmail = [
+        $Form -> Label("Email Address", ["for|username"]),
+        $Form -> Input("text", ["nm|username", "id|username", "cl|form-control", "ph|Enter email"])
     ];
 
-    $inp_pass = [
-        $frm -> label("Password", ["for|password"]),
-        $frm -> input("password", ["nm|password", "id|password", "cl|form-control", "ph|Password"])
+    $InputPassword = [
+        $Form -> Label("Password", ["for|password"]),
+        $Form -> Input("password", ["nm|password", "id|password", "cl|form-control", "ph|Password"])
     ];
 
-    $inp_pass_conf = [
-        $frm -> label("Confirm Password", ["for|password_confirm"]),
-        $frm -> input("password", ["nm|password_confirm", "id|password_confirm", "cl|form-control", "ph|Confirm Password"])
+    $InputPasswordConfirm = [
+        $Form -> Label("Confirm Password", ["for|password_confirm"]),
+        $Form -> Input("password", ["nm|password_confirm", "id|password_confirm", "cl|form-control", "ph|Confirm Password"])
     ];
 
-    $inp_fname = [
-        $frm -> label("First Name", ["for|fname"]),
-        $frm -> input("text", ["nm|fname", "id|fname", "cl|form-control", "ph|First Name"])
+    $InputFirstName = [
+        $Form -> Label("First Name", ["for|fname"]),
+        $Form -> Input("text", ["nm|fname", "id|fname", "cl|form-control", "ph|First Name"])
     ];
 
-    $inp_lname = [
-        $frm -> label("Last Name", ["for|lname"]),
-        $frm -> input("text", ["nm|lname", "id|lname", "cl|form-control", "ph|Last Name"])
+    $InputLastName = [
+        $Form -> Label("Last Name", ["for|lname"]),
+        $Form -> Input("text", ["nm|lname", "id|lname", "cl|form-control", "ph|Last Name"])
     ];
 
-    return $frm -> form(["ac|register_new_user", "cl|card-form spadeMe spadeScript"],[
-        // $frm -> elem("div",["cl|form_message text-danger fw-bold"]),
-        $frm -> div(["cl|row"],[
-            $frm -> div(["cl|col"], $inp_fname),
-            $frm -> div(["cl|col"], $inp_lname)
+    return $Form -> Form(["ac|register_new_user", "cl|w-75 spadeMe spadeScript"],[
+        // $Form -> elem("Div",["cl|Form_message text-danger fw-bold"]),
+        $Form -> Div(["cl|row"],[
+            $Form -> Div(["cl|col"], $InputFirstName),
+            $Form -> Div(["cl|col"], $InputLastName)
         ]),
-        $frm -> div(["cl|form-group"], $inp_email),
-        $frm -> div(["cl|row"],[
-            $frm -> div(["cl|col"], $inp_pass),
-            $frm -> div(["cl|col"], $inp_pass_conf)
+        $Form -> Div(["cl|form-group"], $InputEmail),
+        $Form -> Div(["cl|row"],[
+            $Form -> Div(["cl|col"], $InputPassword),
+            $Form -> Div(["cl|col"], $InputPasswordConfirm)
         ]),
-        $frm -> button("submit", ["cl|btn btn-primary my-2"])
+        $Form -> button("submit", ["cl|btn btn-primary my-2"])
         ]
     );
       

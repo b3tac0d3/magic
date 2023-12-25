@@ -3,5 +3,10 @@
 @layout(layouts.primary)
 
 @section(content)
-    <h1>Registration page coming soon</h1>
+<div class = "text-center">
+    <h2>Register</h2>
+</div>
+<div class = "d-flex justify-content-center px-3 py-5 my-6">
+    <?php Forms::PrintForm("register")?>
+</div>
 @endsection
