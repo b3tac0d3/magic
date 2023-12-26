@@ -4,21 +4,7 @@ namespace User;
 use Aces;
 use Spades\Spades;
 use User\SessionClass;
-
-if(empty($_SESSION)) session_start();
-require_once $_SESSION["fnd"]["app"]["dirs"]["php"] . "autoload.php";;
-
-$login = new UserLogin();
-
-switch($_GET["Script"] ?? null){
-    default:
-    case "Logout":
-        $login -> Logout();
-        break;
-    case "UserLogin":
-        $login -> CheckUserLogin();
-        break;
-}
+use sm;
 
 class UserLogin{
 
@@ -32,10 +18,14 @@ class UserLogin{
 
     private $UserRole;
 
+    function __construct(){
+        if(empty($_SESSION)) session_start();
+        require_once sm::Dir("Php") . "autoload.php";
+    } // __construct()
+
     function CheckUserLogin(){
 
         $query_start_time = microtime(true);
-    
         $this -> InputUserName = $_REQUEST["username"];
         $this -> InputPassword = $_REQUEST["password"];
         $this -> InputRememberMe = $_REQUEST["rememberMe"] ?? null;
@@ -125,5 +115,5 @@ class UserLogin{
         
         echo $Ajax -> MakeJson();
         return;
-    }
+    } // Logout()
 } // class login

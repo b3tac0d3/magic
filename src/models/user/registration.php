@@ -3,9 +3,10 @@
 namespace user;
 use aces;
 use spades\spades;
+use sm;
 
 if(empty($_SESSION)) session_start();
-require_once $_SESSION["fnd"]["app"]["dirs"]["php"] . "autoload.php";;
+require_once sm::Dir("Php") . "autoload.php";;
 
 $reg = new user_registration();
 

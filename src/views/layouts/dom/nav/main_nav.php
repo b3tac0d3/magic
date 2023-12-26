@@ -1,6 +1,6 @@
 <ul class="nav nav-pills">
 <?php
-    require_once sm::Dir("Models") . "dom/nav/nav.php";
+    require_once sm::Dir("Models") . "dom/nav.php";
     $Nav = new Navigation\Navigation;
 
     $PublicNav = 

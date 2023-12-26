@@ -69,6 +69,7 @@ class RouteClass{
 
     function RunScript($File, $CLass = null, $Function = null){
         // Script is passed automatically in the scope
+        if(!str_contains($File, ".php")) $File .= ".php";
         require_once $File;
         if(!empty($Function) && !empty($Class)){
             $RunClass = new $Class();

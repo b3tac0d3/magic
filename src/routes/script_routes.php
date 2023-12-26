@@ -1,7 +1,5 @@
 <?php
 
-require_once "../app/php/autoload.php";
-
 use Document\RouteClass;
 
 $Route = new RouteClass();

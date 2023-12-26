@@ -90,5 +90,5 @@ if(isset($SetupVars["AppCache"]) && $SetupVars["AppCache"] != 0){
 require_once $_SESSION["Root"]["App"]["Dirs"]["Php"] . "autoload.php";
 
 // Final step is to call route file to direct traffic
-require_once "src/routes/routes.php";
+require_once "src/app/php/route_map.php";
 ?>

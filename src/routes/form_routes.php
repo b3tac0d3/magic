@@ -1,15 +1,14 @@
 <?php
 
-require_once "../app/php/autoload.php";
-
 use Document\RouteClass;
 
 $Route = new RouteClass();
-$Script = $_GET["script"];
-$Path = sm::Dir("Models");
+$Controllers = sm::Dir("Controllers");
+$Models = sm::Dir("Models");
+$Script = str_replace("MagicForm/", "", $Route -> GetUri());
 
 return match($Script){
-    "UserLogin" => $Route -> RunScript($Path . "models/login.php")
-    // "register_new_user" => $Route -> RunScript($Path . "user_registration.php"),
-    // "user_delete" => $Route -> RunScript($Path . "user_registration.php")
+    "UserLogin" => $Route -> RunScript($Controllers . "user")
+    // "register_new_user" => $Route -> RunScript($Controllers . "user_registration.php"),
+    // "user_delete" => $Route -> RunScript($Controllers . "user_registration.php")
 };
