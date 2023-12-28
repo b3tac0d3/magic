@@ -12,3 +12,5 @@
     RewriteCond %{REQUEST_URI} !=\/index.php
     RewriteRule .* /magic/index.php
 </IfModule>
+
+ Options -Indexes

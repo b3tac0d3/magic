@@ -38,7 +38,7 @@ class RouteClass{
     } // Ctrl()
 
     function Sess(){
-        // Used for checking a session before loading a logged-in or session file
+        # Used for checking a session before loading a logged-in or session file
         return $this;
     } // Sess()
 
@@ -67,7 +67,7 @@ class RouteClass{
         return $uri;
     } // GetUri()
 
-    function RunScript($File, $CLass = null, $Function = null){
+    function RunScript($File, $CLass = null, $Function = null, $RequestType = "get", $Uri = null){
         // Script is passed automatically in the scope
         if(!str_contains($File, ".php")) $File .= ".php";
         require_once $File;

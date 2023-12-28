@@ -15,7 +15,7 @@ function RequireDependencies($Files){
 
 // PHP Scripts
 RequireScripts(
-    "short_map",
+    "shorts",
     "view",
     "controller",
     "model",

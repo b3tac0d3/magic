@@ -67,7 +67,7 @@ Base URL Paths
 ************/
 "Urls" => array(
 
-"Base" => $BaseUrl . "/", // Redundant for simple short_mAppings functionality later
+"Base" => $BaseUrl . "/", // Redundant for simple shortspings functionality later
 
 "Src" => $Src = $BaseUrl . "/src/",
 
@@ -134,7 +134,7 @@ Directories
 
 "Js" => $App . "js/",
 
-"Php" => $php = $App . "php/",
+"Php" => $Php = $App . "php/",
 
 "Img" => $App . "img/",
 

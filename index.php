@@ -90,5 +90,18 @@ if(isset($SetupVars["AppCache"]) && $SetupVars["AppCache"] != 0){
 require_once $_SESSION["Root"]["App"]["Dirs"]["Php"] . "autoload.php";
 
 // Final step is to call route file to direct traffic
-require_once "src/app/php/route_map.php";
+$RouteClass = new Document\RouteClass();
+
+$Uri = $RouteClass -> GetUri();
+$Dir = sm::Dir("Routes");
+
+if(str_contains($Uri, "MagicForm/")){
+    $File = "form_routes.php";
+}elseif(str_contains($Uri, "MagicScript/")){
+    $File = "script_routes.php";
+}else{
+    $File = "routes.php";
+}
+
+require_once $Dir . $File;
 ?>

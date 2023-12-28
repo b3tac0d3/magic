@@ -6,6 +6,18 @@ use Spades\Spades;
 use User\SessionClass;
 use sm;
 
+$Login = new UserLogin();
+var_dump($_REQUEST);exit;
+switch($_REQUEST["Script"] ?? null){
+    default:
+    case "Logout":
+        $Login -> Logout();
+        break;
+    case "UserLogin":
+        $Login -> CheckUserLogin();
+        break;
+}
+
 class UserLogin{
 
     private $UserDataArray;
@@ -24,7 +36,6 @@ class UserLogin{
     } // __construct()
 
     function CheckUserLogin(){
-
         $query_start_time = microtime(true);
         $this -> InputUserName = $_REQUEST["username"];
         $this -> InputPassword = $_REQUEST["password"];

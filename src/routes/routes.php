@@ -1,10 +1,9 @@
 <?php
 
-use Document\ControllerClass;
-
 $Route = new Document\RouteClass();
 
-match($Uri = $Route -> GetUri()){
+// $Uri is passed in from index file
+match($Uri){
     
     default => $Route -> View($Uri),
 
