@@ -1,0 +1,1 @@
+This is the folder where the user can put all custom code for the app

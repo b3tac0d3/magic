@@ -1,0 +1,10 @@
+a[href]:not(.btn){
+    text-decoration: none;
+    color: #158cba;
+}
+
+
+.code-block{
+    background-color: #eee;
+    padding: 1em;
+}
