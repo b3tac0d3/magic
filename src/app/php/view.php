@@ -124,8 +124,7 @@ function GetRequires(){
 } // GetRequires()
 
 function GetExternalView($View){
-    
-
+    // This is a placeholder for future functionality to be able to use multiple views, easily, in one view file.    
 } // GetExternalView()
 
 function CaptureLayoutYields(){
@@ -163,7 +162,10 @@ function CaptureViewSections(){
         if(count($Variables) > 0) $CurrentSection = $this -> ConvertSectionVariables($CurrentSection, $Variables);
         // Check for includes
         preg_match_all("/@include\(\S+\)/i", $CurrentSection, $Includes);
-        if(count($Includes[0]) > 0) $this -> ConvertIncludes($CurrentSection, $Includes[0]); 
+        if(count($Includes[0]) > 0) $CurrentSection = $this -> ConvertIncludes($CurrentSection, $Includes[0]); 
+        // Check for requires
+        preg_match_all("/@require\(\S+\)/i", $CurrentSection, $Requires);
+        if(count($Requires[0]) > 0) $CurrentSection = $this -> ConvertRequires($CurrentSection, $Requires[0]); 
         // Add section content to section array
         $SectionsArray[$SectionName] = $CurrentSection;
         $SectionKey ++;
@@ -199,9 +201,38 @@ function ConvertSectionVariables($SectionData, $VariablesArray){
     return $SectionData;
 } // CaptureSectionVariables()
 
+
 function ConvertIncludes($SectionData, $IncludesArray){
-     
-} // ConvertIncludes
+    foreach($IncludesArray as $k => $v){
+        // Remove syntax and possible extension
+        $Include = str_replace(["@include(", ")", ".php"], "", $v);
+        // Replace . with / for file
+        $Include = str_replace(".", "/", $Include);
+
+        ob_start();
+        include_once("src/".$Include.".php");
+        $IncludeData = ob_get_clean();
+        $SectionData = str_replace($v, $IncludeData, $SectionData);
+        ob_end_clean();
+    }
+    return $SectionData;
+} // ConvertIncludes()
+
+function ConvertRequires($SectionData, $RequiresArray){
+    foreach($RequiresArray as $k => $v){
+        // Remove syntax and possible extension
+        $Require = str_replace(["@require(", ")", ".php"], "", $v);
+        // Replace . with / for file
+        $Require = str_replace(".", "/", $Require);
+
+        ob_start();
+        require_once("src/".$Require.".php");
+        $RequireData = ob_get_clean();
+        $SectionData = str_replace($v, $RequireData, $SectionData);
+        ob_end_clean();
+    }
+    return $SectionData;
+} // ConvertRequires()
 
 function MergeLayoutViewData(){
     $OutputData = $this -> RawLayoutData;
