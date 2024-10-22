@@ -5,7 +5,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       <a class="navbar-brand" href="/magic">
-        <span><img src = "<?=sm::Url("Img")?>framework/horus_green.png" style = "width: 3em;"></span>
+        <span><img src = "<?=sm::Url("Img")?>framework/tophat-icon.png" style = "width: 3em;"></span>
         <!-- Magic -->
       </a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">

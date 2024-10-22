@@ -3,12 +3,18 @@
 class sm{
     public static function Url($Input){
         // Return any pre-definded URL
-        return $_SESSION["Root"]["App"]["Urls"][$Input];
+        if(empty($_SESSION["Root"]["App"]["Urls"][$Input]))
+            return "Shorts function Url not located";
+        else
+            return $_SESSION["Root"]["App"]["Urls"][$Input];
     } // url()
 
     public static function Dir($Input){
         // Return and pre-defined directory
-        return $_SESSION["Root"]["App"]["Dirs"][$Input];
+        if(empty($_SESSION["Root"]["App"]["Dirs"][$Input]))
+            return "Shorts function Dir not located";
+        else
+            return $_SESSION["Root"]["App"]["Dirs"][$Input];
     } // dir()
 
     public static function Cus($Input){

@@ -28,7 +28,7 @@ class RouteClass{
     function Ctrl($FileName, $ClassName = null, $Function = null){
         # Used for calling a controller
         # FileName = Name of controller file
-        # ClassName = Defaults to pascale case filename + "Class" or can be defined here
+        # ClassName = Defaults to pascal case filename + "Class" or can be defined here
         # Function = Name of specific function to run if not otherwise run automatically when called
 
         $ClassName = $ClassName ?: ucwords($FileName) . "Controller"; // Define ClassName if not passed in

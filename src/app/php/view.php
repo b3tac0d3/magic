@@ -39,8 +39,8 @@ function __construct($ViewFileName, $ControllerData = null){
 
 function GetViewData($ViewFileName){
     ob_start();
-        require_once($ViewFileName);
-        $this -> RawViewData = ob_get_clean();
+    require_once($ViewFileName);
+    $this -> RawViewData = ob_get_clean();
     if (ob_get_contents()) ob_end_clean();
     return;
 } // GetViewData()
@@ -162,10 +162,10 @@ function CaptureViewSections(){
         if(count($Variables) > 0) $CurrentSection = $this -> ConvertSectionVariables($CurrentSection, $Variables);
         // Check for includes
         preg_match_all("/@include\(\S+\)/i", $CurrentSection, $Includes);
-        if(count($Includes[0]) > 0) $CurrentSection = $this -> ConvertIncludes($CurrentSection, $Includes[0]); 
+        if(count($Includes[0]) > 0) $CurrentSection = $this -> ConvertIncludes($CurrentSection, $Includes[0], "Include"); 
         // Check for requires
         preg_match_all("/@require\(\S+\)/i", $CurrentSection, $Requires);
-        if(count($Requires[0]) > 0) $CurrentSection = $this -> ConvertRequires($CurrentSection, $Requires[0]); 
+        if(count($Requires[0]) > 0) $CurrentSection = $this -> ConvertIncludes($CurrentSection, $Requires[0], "Require"); 
         // Add section content to section array
         $SectionsArray[$SectionName] = $CurrentSection;
         $SectionKey ++;
@@ -201,38 +201,24 @@ function ConvertSectionVariables($SectionData, $VariablesArray){
     return $SectionData;
 } // CaptureSectionVariables()
 
-
-function ConvertIncludes($SectionData, $IncludesArray){
-    foreach($IncludesArray as $k => $v){
+function ConvertIncludes($SectionData, $CallsArray, $CallType){
+    foreach($CallsArray as $k => $v){
         // Remove syntax and possible extension
-        $Include = str_replace(["@include(", ")", ".php"], "", $v);
-        // Replace . with / for file
-        $Include = str_replace(".", "/", $Include);
-
+        $FilePath = str_replace(["@require(", "@include(", ")", ".php"], "", $v);
+        // Check file extension - add PHP by default
+        if(!strpos($FilePath, ".")) $FilePath .= ".php";
         ob_start();
-        include_once("src/".$Include.".php");
-        $IncludeData = ob_get_clean();
-        $SectionData = str_replace($v, $IncludeData, $SectionData);
-        ob_end_clean();
+        if($CallType == "Require"){
+            require_once($FilePath);
+        }else{
+            include_once($FilePath);
+        }
+        $FileData = ob_get_clean();
+        $SectionData = str_replace($v, $FileData, $SectionData);
+        if(ob_get_contents()) ob_end_clean();
     }
     return $SectionData;
-} // ConvertIncludes()
-
-function ConvertRequires($SectionData, $RequiresArray){
-    foreach($RequiresArray as $k => $v){
-        // Remove syntax and possible extension
-        $Require = str_replace(["@require(", ")", ".php"], "", $v);
-        // Replace . with / for file
-        $Require = str_replace(".", "/", $Require);
-
-        ob_start();
-        require_once("src/".$Require.".php");
-        $RequireData = ob_get_clean();
-        $SectionData = str_replace($v, $RequireData, $SectionData);
-        ob_end_clean();
-    }
-    return $SectionData;
-} // ConvertRequires()
+}
 
 function MergeLayoutViewData(){
     $OutputData = $this -> RawLayoutData;

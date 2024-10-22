@@ -86,7 +86,7 @@ return array(
 
         "Src" => $Src = $BaseUrl . "/src/",
 
-        "Views" => $Src . "views/",
+        "Views" => $Views = $Src . "views/",
 
         "Controllers" => $Src . "controllers/",
 
@@ -122,7 +122,7 @@ return array(
 
         "Logs" => $App . "logs/",
 
-        "Structure" => $Structure = $App . "structure/",
+        "Structure" => $Structure = $Views . "_structure/",
 
         "Dom" => $Structure . "dom/",
 
@@ -143,7 +143,7 @@ return array(
 
         "Routes" => $Src . "routes/",
 
-        "Views" => $Src . "views/",
+        "Views" => $Views = $Src . "views/",
 
         "Controllers" => $Src . "controllers/",
 
@@ -179,7 +179,7 @@ return array(
 
         "Logs" => $App . "logs/",
 
-        "Structure" => $Structure = $App . "structure/",
+        "Structure" => $Structure = $Views . "_structure/",
 
         "Dom" => $Structure . "dom/",
 
