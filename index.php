@@ -10,7 +10,7 @@ if(!isset($_SESSION["Root"]["Id"]) || AppState == "Alpha"){
     $_SESSION["Root"] = null;
     
     // Get control info from hard code lib file
-    $SetupVars = require_once "src/app/config.php";
+    $SetupVars = require_once "config.php";
 
     // Set session with control variable data
     $_SESSION["Root"] = $SetupVars;

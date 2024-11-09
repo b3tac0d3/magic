@@ -2,6 +2,7 @@
 
 $AppRootDir = "magic";
 $AppName = "Magic";
+$PageTitle = "Magic";
 $LocalPort = "80"; // Leave blank for default port 80
 $MySQLPort = "3306";
 $AppUrl = "http://localhost";
@@ -58,6 +59,9 @@ return array(
     "App" => array(
     /* App or site name */
         "AppName" => $AppName,
+
+        /* Default page title */
+        "PageTitle" => $PageTitle,
 
         /* App root directory */
         "AppRootDir" => $AppRootDir,
@@ -122,7 +126,7 @@ return array(
 
         "Logs" => $App . "logs/",
 
-        "Structure" => $Structure = $Views . "_structure/",
+        "Structure" => $Structure = $Src . "structure/",
 
         "Dom" => $Structure . "dom/",
 
@@ -179,7 +183,7 @@ return array(
 
         "Logs" => $App . "logs/",
 
-        "Structure" => $Structure = $Views . "_structure/",
+        "Structure" => $Structure = $Src . "structure/",
 
         "Dom" => $Structure . "dom/",
 

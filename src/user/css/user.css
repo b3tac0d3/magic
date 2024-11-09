@@ -1,0 +1,18 @@
+.navbar-custom {
+    background-color: #69c0d2; /* Light blue color */
+    padding: 1rem 1.5rem;
+}
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.nav-link {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+}
+.nav-link:hover {
+    color: #ffdd57; /* Light yellow color on hover */
+}
+body {
+    color: #333333; /* Dark gray color for site-wide font */
+}
